@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.excel{
+  height: 60vh;
+}
+
+.navbar{
+  /* background-color: aquamarine; */
+  height: 12vh;
+  font-size: x-large;
+}
+
+.component{
+  background-color: rgb(226, 163, 163);
+  display: flex;
+  flex-direction:row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.url input{
+  width: 230px;
+}
+
+.save{
+  color: red;
+  z-index: 2;
+}
