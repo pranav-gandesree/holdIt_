@@ -49,11 +49,11 @@ export default function TextArea({ setTextValue  }) {
   }, [editorValue]);
 
   return (
-    <div>
+    <div className='flex justify-center bg-slate-900 h-screen'>
     <Editor
         height="90vh"
         className='editor'
-        width="100%"
+        width="100%" 
         theme= "vs-dark"
         // defaultLanguage="javascript"
         defaultValue={editorValue}
@@ -67,7 +67,9 @@ export default function TextArea({ setTextValue  }) {
           }
         }}
       />
-
+      {/* <textarea id="w3review" name="w3review" rows="4" cols="50">
+At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+</textarea> */}
     </div>
   )
 }
