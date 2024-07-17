@@ -99,6 +99,7 @@ function generateRandomUrl() {
 router.post('/paste', async (req, res) => {
     try {
         const { text, url } = req.body;
+        console.log(text,url)
         const generatedUrl = url || generateRandomUrl();
 
         if (!text) {

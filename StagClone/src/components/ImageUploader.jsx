@@ -60,21 +60,59 @@ const ImageUploader = () => {
     window.location.reload();
   };
 
+
+
   const handleSave = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/v1/saveimage', { imageSrc, url });
-      if (response.data.success) {
-        alert("image uploaded")
-        console.log(response.data);
-      } else {
-        // Show error alert
-        throw new Error('Error saving image');
-      }
+        // Send POST request to backend API
+        const response = await axios.post('http://localhost:4000/api/v1/saveimage', { imageSrc, url });
+
+        // Check if the response has data
+        if (response.data) {
+          const { message, generatedUrl } = response.data;
+
+          // Check if generatedUrl is available
+          if (generatedUrl) {
+              setUrl(generatedUrl)
+              console.log('Generated URL:', generatedUrl);
+
+              // Reload the page after 5 seconds
+            //   setTimeout(() => {
+            //     window.location.reload();
+            // }, 5000);
+        } else {
+            // Handle unexpected cases
+            throw new Error('Unexpected response structure');
+        }}
     } catch (error) {
-      console.error('Error saving image:', error);
-  
+        // Log detailed error information
+        console.error('Error saving image:', error.response ? error.response.data : error.message);
+
+        // Show a user-friendly error message
+        alert("Failed to upload image. Please try again.");
     }
-  };
+};
+
+const copyToClipboard = () => {
+  if (urlInputRef.current) {
+    const fullUrl = `http://localhost:3000/imageuploader/${url}`;
+    navigator.clipboard.writeText(fullUrl)
+      .then(() => {
+    console.log("copiedd")
+      }
+    )
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+        // setAlertMessage('Failed to copy URL to the clipboard!');
+        // setAlertSeverity('error');
+        // setShowAlert(true);
+
+        // setTimeout(() => {
+        //   setShowAlert(false);
+        // }, 3000);
+      });
+  }
+};
 
 
   return (
@@ -91,7 +129,7 @@ const ImageUploader = () => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             />
-          <Button variant="contained">COPY</Button>
+          <Button onClick={copyToClipboard} variant="contained">COPY</Button>
           <Button onClick={handleSave} variant="contained">SAVE</Button>
           <Button onClick={reload} variant="contained">  NEW </Button>
         </Stack>
