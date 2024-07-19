@@ -17,29 +17,18 @@ code {
     monospace;
 }
 
-.excel{
-  height: 60vh;
+/* Add this CSS to your index.css or a relevant CSS file */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.navbar{
-  /* background-color: aquamarine; */
-  height: 12vh;
-  font-size: x-large;
-}
-
-.component{
-  background-color: rgb(226, 163, 163);
-  display: flex;
-  flex-direction:row;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.url input{
-  width: 230px;
-}
-
-.save{
-  color: red;
-  z-index: 2;
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
 }

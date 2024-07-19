@@ -41,6 +41,8 @@ const ImageReceiver = () => {
   return (
     imageSrc && (
         <>
+        <div className="flex justify-center flex-col items-center bg-slate-200 h-screen" >
+
           <div>
           <Button onClick={reload} variant="contained">  NEW </Button>
           </div>
@@ -52,6 +54,7 @@ const ImageReceiver = () => {
             alt="Uploaded"
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             />
+        </div>
         </div>
         </>
       )

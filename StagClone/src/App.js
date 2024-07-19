@@ -18,7 +18,7 @@ function App() {
           <Routes>
          
           <Route path="/" element={<TextArea setTextValue={setTextValue}/>}/>
-          <Route path="/textarea" element={<TextArea setTextValue={setTextValue}/>}/>
+          {/* <Route path="/textarea" element={<TextArea setTextValue={setTextValue}/>}/> */}
           <Route path="/imageuploader" element={<ImageUploader/>}/>
           <Route path="/:id" element={<TextArea setTextValue={setTextValue}/>} />   
           <Route path="/imageuploader/:id" element={<ImageReceiver/>}/>
