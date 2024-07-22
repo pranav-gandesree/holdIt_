@@ -47,41 +47,43 @@ const ImageReceiver = () => {
 
   return (
     <>
-        <div className="flex justify-center items-center bg-gray-200 min-h-screen py-8">
-          <div className="max-w-screen-lg w-full bg-white shadow-lg p-6 rounded-lg ">
-    
+      <div className="flex justify-center items-center bg-gray-200 min-h-screen py-8">
+        <div className="max-w-screen-lg w-full bg-white shadow-lg p-6 rounded-lg ">
+          <Stack
+            spacing={2}
+            direction={{ base: "column", md: "row" }}
+            className="pb-2"
+          >
+            <div className="flex flex-row">
+              <TextField
+                id="outlined-basic"
+                label="Enter URL"
+                variant="outlined"
+                disabled={!!id} // Disable if id is present
+                className="w-full sm:w-96 lg:w-[300px]  sm:mb-0 sm:mr-2"
+              />
 
-<Stack spacing={2} direction={{ base: "column", md: "row" }}className="pb-2">
-
-
-<div className='flex flex-row'>
-  <TextField
-    id="outlined-basic"
-    label="Enter URL"
-    variant="outlined"
-    disabled={!!id} // Disable if id is present
-    className="w-full sm:w-96 lg:w-[300px]  sm:mb-0 sm:mr-2" 
-  />
-
-  <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px]">
-    <FormControl fullWidth>
-      <InputLabel id="demo-simple-select-label">Expire in </InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        // value={expireTime}
-        disabled={!!id}
-        label="Expiry"
-        className="w-full"
-      >
-        <MenuItem value={3600}>1 hour</MenuItem>
-        <MenuItem value={86400}>1 day</MenuItem>
-        <MenuItem value={2592000}>1 month</MenuItem>
-        <MenuItem value={0}>NEVER</MenuItem>
-      </Select>
-    </FormControl>
-  </Box>
-</div>
+              <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px]">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">
+                    Expire in{" "}
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    // value={expireTime}
+                    disabled={!!id}
+                    label="Expiry"
+                    className="w-full"
+                  >
+                    <MenuItem value={3600}>1 hour</MenuItem>
+                    <MenuItem value={86400}>1 day</MenuItem>
+                    <MenuItem value={2592000}>1 month</MenuItem>
+                    <MenuItem value={0}>NEVER</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </div>
 
             <div className="flex mt-2 flex-row md:flex-row md:space-x-2 space-x-2 ">
               <Button
@@ -109,11 +111,9 @@ const ImageReceiver = () => {
                 NEW
               </Button>
             </div>
-         </Stack>
+          </Stack>
 
-
-
-    {imageSrc && (
+          {imageSrc && (
             <div className="w-full h-72 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center mt-4 overflow-hidden">
               <img
                 src={imageSrc}
@@ -121,13 +121,11 @@ const ImageReceiver = () => {
                 style={{ maxWidth: "100%", maxHeight: "100%" }}
               />
             </div>
-      )}
-
-
-          </div>
+          )}
         </div>
-      </>
-    )
+      </div>
+    </>
+  );
 };
 
 export default ImageReceiver;
