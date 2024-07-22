@@ -18,8 +18,9 @@ function generateRandomUrl() {
 
 router.post('/saveimage', async (req, res) => {
     try {
-        const { imageSrc, url } = req.body;
+        const { imageSrc, url, expireTime } = req.body;
         const generatedUrl = url || generateRandomUrl();
+
 
         if (!imageSrc) {
             return res.status(400).json({ message: 'Image source is required' });
@@ -69,7 +70,9 @@ router.post('/saveimage', async (req, res) => {
         // Save the URL to the database
         const { data, error: insertError } = await supabase
             .from('data')
-            .insert([{ text: publicURL, url: generatedUrl }]);
+            .insert([{ text: publicURL, url: generatedUrl, 
+                created_at: new Date().toISOString(),
+                expire_in: expireTime, }]);
 
         if (insertError) {
             console.error('Insert error:', insertError);

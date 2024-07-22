@@ -5,11 +5,13 @@ import TextField from "@mui/material/TextField";
 import axios from "axios";
 import AlertComponent from "./AlertComponent";
 
+import { useParams } from 'react-router-dom';
+
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 
 const ImageUploader = () => {
   const [imageSrc, setImageSrc] = useState(null);
@@ -19,8 +21,14 @@ const ImageUploader = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("success");
+  const { id } = useParams();
 
-  const [age, setAge] = React.useState("");
+  const [expireTime, setExpireTime] = React.useState('0');
+
+  const handleExpiry = (event) =>{
+    setExpireTime(event.target.value);
+  }
+
 
   const handleDrop = (event) => {
     event.preventDefault();
@@ -77,7 +85,7 @@ const ImageUploader = () => {
       // Send POST request to backend API
       const response = await axios.post(
         "http://localhost:4000/api/v1/saveimage",
-        { imageSrc, url }
+        { imageSrc, url, expireTime }
       );
 
       // Check if the response has data
@@ -163,47 +171,72 @@ const ImageUploader = () => {
 
       <div className="flex justify-center items-center bg-gray-200 min-h-screen py-8">
         <div className="max-w-screen-lg w-full bg-white shadow-lg p-6 rounded-lg ">
-          <Stack spacing={2} direction="row" className="pb-2">
-             <TextField
-              id="outlined-basic"
-              label="Enter URL"
-              variant="outlined"
-              ref={urlInputRef}
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              // disabled={!!id} // Disable if id is present
-              className="mb-2 md:mb-0 md:mr-2 md:w-56 " 
-            />
+          <Stack spacing={2}  direction={{ base: "column", md: "row" }} className="pb-2">
 
-            <Box sx={{ minWidth: 120 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Expire in{" "}
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  label="Age"
-                  // onChange={handleChange}
-                >
-                  <MenuItem value={10}>1 hour</MenuItem>
-                  <MenuItem value={20}>1 day</MenuItem>
-                  <MenuItem value={30}>1 month</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <Button onClick={copyToClipboard} variant="contained">
-              COPY
-            </Button>
-            <Button onClick={handleSave} variant="contained">
-              SAVE
-            </Button>
-            <Button onClick={reload} variant="contained">
-              {" "}
-              NEW{" "}
-            </Button>
-          </Stack>
+
+<div className='flex flex-row'>
+  <TextField
+    id="outlined-basic"
+    label="Enter URL"
+    variant="outlined"
+    inputRef={urlInputRef}
+    value={url}
+    onChange={(e) => setUrl(e.target.value)}
+    disabled={!!id} // Disable if id is present
+    className="w-full sm:w-96 lg:w-[300px]  sm:mb-0 sm:mr-2" 
+  />
+
+  <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px]">
+    <FormControl fullWidth>
+      <InputLabel id="demo-simple-select-label">Expire in </InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={expireTime}
+        disabled={!!id}
+        label="Expiry"
+        onChange={handleExpiry}
+        className="w-full"
+      >
+        <MenuItem value={3600}>1 hour</MenuItem>
+        <MenuItem value={86400}>1 day</MenuItem>
+        <MenuItem value={2592000}>1 month</MenuItem>
+        <MenuItem value={0}>NEVER</MenuItem>
+      </Select>
+    </FormControl>
+  </Box>
+</div>
+
+            <div className="flex mt-2 flex-row md:flex-row md:space-x-2 space-x-2 ">
+              <Button
+                onClick={copyToClipboard}
+                variant="contained"
+                className="bg-blue-500 hover:bg-blue-700 custom:w-24 text-white w-full md:mb-2 md:w-full "
+                disabled={!!id}
+                size="medium"
+              >
+                COPY
+              </Button>
+              <Button
+                onClick={handleSave}
+                variant="contained"
+                className="bg-green-500 hover:bg-green-700 text-white w-full lg:w-28 md:mb-0 md:w-full h-12"
+                disabled={!!id}
+                size="medium"
+              >
+                SAVE
+              </Button>
+              <Button
+                onClick={reload}
+                size="medium"
+                variant="contained"
+                className="bg-gray-500 hover:bg-gray-700 text-white w-full lg:w-28 md:mb-0 md:w-full h-12"
+              >
+                NEW
+              </Button>
+            </div>
+            </Stack>
+            
 
           <div
             className="w-full h-80 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center overflow-hidden mt-2"

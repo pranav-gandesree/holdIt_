@@ -7,20 +7,20 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, navigate, useNavigate} from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 
 
 
 
 
 export default function TextArea({ setTextValue }) {
-  const [editorValue, setEditorValue] = useState("//some comment");
+  const [editorValue, setEditorValue] = useState("");
   const editorRef = useRef(null);
   const [url, setUrl] = useState("");
   const urlInputRef = useRef(null);
@@ -28,9 +28,13 @@ export default function TextArea({ setTextValue }) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState('success');
   const { id } = useParams(); // Get the id from the URL
+
+  const [expireTime, setExpireTime] = React.useState('0');
   const navigate = useNavigate();
 
-  const [age, setAge] = React.useState('');
+  const handleExpiry = (event) =>{
+    setExpireTime(event.target.value);
+  }
 
 
 
@@ -83,7 +87,7 @@ export default function TextArea({ setTextValue }) {
   useEffect(() => {
     // Check if editor value is empty and set default value if true
     if (editorValue.trim() === "") {
-      setEditorValue("// some comment");
+      setEditorValue("");
     }
   }, [editorValue]);
 
@@ -92,7 +96,7 @@ export default function TextArea({ setTextValue }) {
   }
 
   function saveTextToDatabase(text) {
-    axios.post('http://localhost:4000/api/v1/paste', { text, url })
+    axios.post('http://localhost:4000/api/v1/paste', { text, url, expireTime })
       .then(response => {
         console.log("Response from server:", response);
 
@@ -130,8 +134,9 @@ export default function TextArea({ setTextValue }) {
   }
 
   const reload = () => {
-    navigate('/');
-    setTextValue("// some comment");
+    // setEditorValue("")
+    navigate('/')
+    window.location.reload();
   };
 
   const copyToClipboard = () => {
@@ -160,43 +165,7 @@ export default function TextArea({ setTextValue }) {
     }
   };
 
-  // return (
-  //   <>
-  //     <div>
-  //       {showAlert && <Alert severity={alertSeverity}>{alertMessage}</Alert>}
-  //     </div>
-  //     <div className="flex justify-center flex-col items-center bg-slate-200 h-screen">
-  //       <Stack spacing={2} direction="row" className='pb-2'>
-  //         <TextField id="outlined-basic" label="Enter URL" variant="outlined"
-  //           ref={urlInputRef}
-  //           value={url}
-  //           onChange={(e) => setUrl(e.target.value)}
-  //           disabled={!!id} // Disable if id is present
-  //         />
-  //         <Button onClick={copyToClipboard} variant="contained" disabled={!!id}>COPY</Button>
-  //         <Button onClick={saveData} variant="contained" disabled={!!id}>SAVE</Button>
-  //         <Button onClick={reload} variant="contained">NEW</Button>
-  //       </Stack>
-  //       <div className="editor-container">
-  //         <Editor
-  //           height="70vh"
-  //           width="70vw"
-  //           theme="vs-dark"
-  //           defaultValue={editorValue}
-  //           loading="Loading..."
-  //           onMount={handleEditorDidMount}
-  //           onChange={debounce(handleChange, 1500)}
-  //           options={{
-  //             fontSize: 16,
-  //             minimap: {
-  //               enabled: false
-  //             }
-  //           }}
-  //         />
-  //       </div>
-  //     </div>
-  //   </>
-  // );
+
 
 
   return (
@@ -216,45 +185,46 @@ export default function TextArea({ setTextValue }) {
             direction={{ base: "column", md: "row" }}
             className="mb-4 "
           >
-            <TextField
-              id="outlined-basic"
-              label="Enter URL"
-              variant="outlined"
-              inputRef={urlInputRef}
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              disabled={!!id} // Disable if id is present
-              className="mb-2 md:mb-0 md:mr-2 md:w-56 " 
-            />
-
-            <div className='mb-4 h-12'>
-
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Expire in </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                  // onChange={handleChange}
-                  >
-                    <MenuItem value={10}>1 hour</MenuItem>
-                    <MenuItem value={20}>1 day</MenuItem>
-                    <MenuItem value={30}>1 month</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </div>
 
 
+<div className='flex flex-row pt-2'>
+  <TextField
+    id="outlined-basic"
+    label="Enter URL"
+    variant="outlined"
+    inputRef={urlInputRef}
+    value={url}
+    onChange={(e) => setUrl(e.target.value)}
+    disabled={!!id} // Disable if id is present
+    className="w-full sm:w-96 lg:w-[300px]  sm:mb-0 sm:mr-2" 
+  />
 
+  <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px]">
+    <FormControl fullWidth>
+      <InputLabel id="demo-simple-select-label">Expire in </InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={expireTime}
+        disabled={!!id}
+        label="Expiry"
+        onChange={handleExpiry}
+        className="w-full"
+      >
+        <MenuItem value={3600}>1 hour</MenuItem>
+        <MenuItem value={86400}>1 day</MenuItem>
+        <MenuItem value={2592000}>1 month</MenuItem>
+        <MenuItem value={0}>NEVER</MenuItem>
+      </Select>
+    </FormControl>
+  </Box>
+</div>
 
-            <div className="flex mt-2 w-auto flex-row md:flex-row md:space-x-2 space-x-2 ">
+            <div className="flex mt-2 flex-row md:flex-row md:space-x-2 space-x-2 ">
               <Button
                 onClick={copyToClipboard}
                 variant="contained"
-                className="bg-blue-500 hover:bg-blue-700 text-white  md:mb-2 md:w-full h-12"
+                className="bg-blue-500 hover:bg-blue-700 custom:w-24 text-white w-full md:mb-2 md:w-full "
                 disabled={!!id}
                 size="medium"
               >
@@ -263,7 +233,7 @@ export default function TextArea({ setTextValue }) {
               <Button
                 onClick={saveData}
                 variant="contained"
-                className="bg-green-500 hover:bg-green-700 text-white  md:mb-0 md:w-full"
+                className="bg-green-500 hover:bg-green-700  text-white w-full lg:w-28 md:mb-0 md:w-full "
                 disabled={!!id}
                 size="medium"
               >
@@ -273,11 +243,18 @@ export default function TextArea({ setTextValue }) {
                 onClick={reload}
                 size="medium"
                 variant="contained"
-                className="bg-gray-500 hover:bg-gray-700 text-white  md:mb-0 md:w-full"
+                className="bg-gray-500 hover:bg-gray-700 text-white w-full lg:w-28 md:mb-0 md:w-full"
               >
                 NEW
               </Button>
             </div>
+
+
+            
+
+            
+
+
           </Stack>
           <div className="editor-container">
             <Editor

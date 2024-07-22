@@ -26,8 +26,8 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 p-4 flex justify-between items-center relative">
-      <h1 className="text-white text-2xl font-bold">
-        <StyledNavLink to="/">Textshare</StyledNavLink>
+      <h1 className="text-white text-2xl font-bold pl-4">
+        <NavLink to="/">holdIt_</NavLink>
       </h1>
       <div className="hidden md:flex space-x-4">
         <Button
