@@ -178,14 +178,14 @@ export default function TextArea({ setTextValue }) {
 
       <div className="flex justify-center items-center bg-gray-200 min-h-screen py-8">
         <div className="max-w-screen-lg w-full bg-white shadow-lg p-6 rounded-lg ">
+
           <Stack
             spacing={2}
             direction={{ base: "column", md: "row" }}
-            className="mb-4 "
+            className="mb-4"
           >
 
-
-            <div className='flex flex-row pt-2'>
+            <div className='flex flex-row '>
               <TextField
                 id="outlined-basic"
                 label="Enter URL"
@@ -194,10 +194,10 @@ export default function TextArea({ setTextValue }) {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 disabled={!!id} // Disable if id is present
-                className="w-full sm:w-96 lg:w-[300px]  sm:mb-0 sm:mr-2"
+                className="w-full sm:w-96 lg:w-[300px] md:w-full  sm:mb-0 sm:mr-2 "
               />
 
-              <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px]">
+              <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px] md:w-full ">
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Expire in </InputLabel>
                   <Select
@@ -222,7 +222,7 @@ export default function TextArea({ setTextValue }) {
               <Button
                 onClick={copyToClipboard}
                 variant="contained"
-                className="bg-blue-500 hover:bg-blue-700 custom:w-24 text-white w-full md:mb-2 md:w-full "
+                className="bg-blue-500 hover:bg-blue-700 lg:w-24 md:full h-14 w-full text-white md:mb-2  "
                 disabled={!!id}
                 size="medium"
               >
@@ -231,7 +231,7 @@ export default function TextArea({ setTextValue }) {
               <Button
                 onClick={saveData}
                 variant="contained"
-                className="bg-green-500 hover:bg-green-700  text-white w-full lg:w-28 md:mb-0 md:w-full "
+                className="  text-white w-full lg:w-28 md:mb-0 md:w-full  "
                 disabled={!!id}
                 size="medium"
               >
@@ -241,19 +241,16 @@ export default function TextArea({ setTextValue }) {
                 onClick={reload}
                 size="medium"
                 variant="contained"
-                className="bg-gray-500 hover:bg-gray-700 text-white w-full lg:w-28 md:mb-0 md:w-full"
+                className="text-white w-full lg:w-28 md:mb-0 md:w-full "
               >
                 NEW
               </Button>
             </div>
 
-
-
-
-
-
-
           </Stack>
+
+
+
           <div className="editor-container">
             <Editor
               height="70vh"
