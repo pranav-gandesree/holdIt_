@@ -16,6 +16,7 @@ app.use(express.json());
 
 app.use('/api/v1', require('./routes/paste'))
 app.use('/api/v1', require('./routes/imagehandling'))
+app.use('/api/v1', require('./routes/csv'))
 
 app.listen(4000, async ()=>{
     // await connectDB();

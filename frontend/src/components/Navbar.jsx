@@ -44,7 +44,16 @@ const Navbar = () => {
         >
           Image Uploader
         </Button>
+        <Button
+          component={StyledNavLink}
+          to="/excelsheet"
+          className="bg-blue-500 hover:bg-blue-700 text-white"
+        >
+          Excelsheet
+        </Button>
       </div>
+
+      
       <div className="md:hidden">
         <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleMenu}>
           {isMenuOpen ? (
@@ -76,6 +85,14 @@ const Navbar = () => {
             onClick={toggleMenu}
           >
             Image Uploader
+          </Button>
+          <Button
+            component={StyledNavLink}
+            to="/excelsheet"
+            className="bg-blue-500 hover:bg-blue-700 text-white w-full text-center"
+            onClick={toggleMenu}
+          >
+            Excelsheet
           </Button>
         </div>
       )}

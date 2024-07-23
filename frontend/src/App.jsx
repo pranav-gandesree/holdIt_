@@ -5,6 +5,7 @@ import ImageUploader from './components/ImageUploader';
 import Navbar from './components/Navbar'; 
 import { useState } from 'react';
 import ImageReceiver from './components/ImageReceiver';
+import Sheet from './components/Sheet';
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
           <Route path="/imageuploader" element={<ImageUploader/>}/>
           <Route path="/:id" element={<TextArea setTextValue={setTextValue}/>} />   
           <Route path="/imageuploader/:id" element={<ImageReceiver/>}/>
+          <Route path="/excelsheet" element={<Sheet/>}/>
+          <Route path="/excelsheet/:id" element={<Sheet/>}/>
       
           </Routes>
         </div>

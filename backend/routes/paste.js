@@ -16,6 +16,7 @@ function generateRandomUrl() {
     return url;
 }
 
+
 router.post('/paste', async (req, res) => {
     try {
         const { text, url, expireTime } = req.body;
@@ -53,6 +54,8 @@ router.post('/paste', async (req, res) => {
         res.status(500).json({ message: 'cannot save data to database' });
     }
 });
+
+
 
 router.get('/:url', async (req, res) => {
     try {
