@@ -4,7 +4,8 @@ import { Button, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/system";
-import '../index.css'
+import "../index.css";
+import logo from "../../public/logo.jpeg";
 
 const StyledNavLink = styled(NavLink)({
   color: "white",
@@ -26,9 +27,13 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-900 p-4 flex justify-between items-center relative">
-      <h1 className="text-white text-2xl pl-4 font-serif">
-        <NavLink to="/">holdIt_</NavLink>
-      </h1>
+      <NavLink
+        className="text-white text-2xl pl-4 font-serif flex items-center"
+        to="/"
+      >
+        <img src={logo} alt="Logo" className="h-8 w-auto rounded-full mr-2" />
+        <h1 className="mr-2">holdIt_</h1>
+      </NavLink>
       <div className="hidden md:flex space-x-4">
         <Button
           component={StyledNavLink}
@@ -53,9 +58,13 @@ const Navbar = () => {
         </Button>
       </div>
 
-      
       <div className="md:hidden">
-        <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleMenu}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={toggleMenu}
+        >
           {isMenuOpen ? (
             <CloseIcon className="text-white" />
           ) : (
@@ -66,7 +75,12 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden fixed top-0 right-0 h-full w-64 bg-gray-900 flex flex-col items-center animate-slide-in-right z-50 p-4">
           <div className="self-end mb-4">
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleMenu}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleMenu}
+            >
               <CloseIcon className="text-white" />
             </IconButton>
           </div>
