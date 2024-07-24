@@ -98,7 +98,7 @@ export default function TextArea({ setTextValue }) {
   }
 
   function saveTextToDatabase(text) {
-    axios.post('${backendUrl}/api/v1/paste', { text, url, expireTime })
+    axios.post(`${backendUrl}/api/v1/paste`, { text, url, expireTime })
       .then(response => {
         console.log("Response from server:", response);
 
