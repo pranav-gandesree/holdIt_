@@ -17,6 +17,7 @@ const ImageReceiver = () => {
   const [expireTime, setExpireTime] = useState(""); // Assuming you want to manage expireTime state
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
+
   const reload = () => {
     navigate("/imageuploader");
   };

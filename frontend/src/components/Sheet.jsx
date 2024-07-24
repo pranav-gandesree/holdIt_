@@ -33,6 +33,7 @@ const Sheet = () => {
   const [expireTime, setExpireTime] = React.useState("0");
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 
   const handleExpiry = (event) => {
     setExpireTime(event.target.value);
@@ -40,7 +41,7 @@ const Sheet = () => {
 
   const copyToClipboard = () => {
     if (urlInputRef.current) {
-      const fullUrl = `http://localhost:5173/excelsheet/${url}`;
+      const fullUrl = `${frontendUrl}/excelsheet/${url}`;
       navigator.clipboard
         .writeText(fullUrl)
         .then(() => {

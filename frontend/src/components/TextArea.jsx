@@ -29,6 +29,7 @@ export default function TextArea({ setTextValue }) {
   const [alertSeverity, setAlertSeverity] = useState('success');
   const { id } = useParams(); // Get the id from the URL
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 
   const [expireTime, setExpireTime] = React.useState('0');
   const navigate = useNavigate();
@@ -147,7 +148,7 @@ export default function TextArea({ setTextValue }) {
 
   const copyToClipboard = () => {
     if (urlInputRef.current) {
-      const fullUrl = `http://localhost:5173/${url}`;
+      const fullUrl = `${frontendUrl}/${url}`;
       navigator.clipboard.writeText(fullUrl)
         .then(() => {
           setAlertMessage('Copied URL to the clipboard!');

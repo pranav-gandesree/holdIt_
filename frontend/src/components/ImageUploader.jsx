@@ -23,6 +23,7 @@ const ImageUploader = () => {
   const [alertSeverity, setAlertSeverity] = useState("success");
   const { id } = useParams();
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 
   const [expireTime, setExpireTime] = React.useState("0");
 
@@ -134,7 +135,7 @@ const ImageUploader = () => {
 
   const copyToClipboard = () => {
     if (urlInputRef.current) {
-      const fullUrl = `http://localhost:5173/imageuploader/${url}`;
+      const fullUrl = `${frontendUrl}/imageuploader/${url}`;
       navigator.clipboard
         .writeText(fullUrl)
         .then(() => {
