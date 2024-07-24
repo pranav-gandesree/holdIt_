@@ -31,11 +31,13 @@ router.post("/json", async (req, res) => {
         created_at: new Date().toISOString(), // or use a library for date formatting
         expire_in: expireTime 
       };
+// console.log(dataToInsert);
 
           // Insert data into Supabase table
     const response = await supabase
     .from('exceldata')
-    .insert([dataToInsert]);
+    .insert([dataToInsert])
+    .select();
 
     const { data, error } = response;
     console.log('Inserted data:', data);

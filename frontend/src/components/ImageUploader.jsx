@@ -104,10 +104,10 @@ const ImageUploader = () => {
             setShowAlert(false);
           }, 5000);
 
-          //   // Reload the page after 5 seconds
-          //   setTimeout(() => {
-          //     window.location.reload();
-          // }, 10000);
+            // Reload the page after 10 seconds
+            setTimeout(() => {
+              window.location.reload();
+          }, 10000);
         } else {
           // Handle unexpected cases
           throw new Error("Unexpected response structure");
@@ -184,10 +184,10 @@ const ImageUploader = () => {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 disabled={!!id} // Disable if id is present
-                className="w-full sm:w-96 lg:w-[300px]  sm:mb-0 sm:mr-2"
+                className="w-full sm:w-96 lg:w-[300px]  sm:mb-0 sm:mr-2 md:w-full"
               />
 
-              <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px]">
+              <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px] md:w-full">
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">
                     Expire in{" "}
@@ -214,7 +214,7 @@ const ImageUploader = () => {
               <Button
                 onClick={copyToClipboard}
                 variant="contained"
-                className="bg-blue-500 hover:bg-blue-700 custom:w-24 text-white w-full md:mb-2 md:w-full "
+                className="bg-blue-500 hover:bg-blue-700 lg:w-24 md:full h-14 w-full text-white md:mb-2  "
                 disabled={!!id}
                 size="medium"
               >
@@ -223,7 +223,7 @@ const ImageUploader = () => {
               <Button
                 onClick={handleSave}
                 variant="contained"
-                className="bg-green-500 hover:bg-green-700 text-white w-full lg:w-28 md:mb-0 md:w-full h-12"
+              className="  text-white w-full lg:w-28 md:mb-0 md:w-full  "
                 disabled={!!id}
                 size="medium"
               >
@@ -233,7 +233,7 @@ const ImageUploader = () => {
                 onClick={reload}
                 size="medium"
                 variant="contained"
-                className="bg-gray-500 hover:bg-gray-700 text-white w-full lg:w-28 md:mb-0 md:w-full h-12"
+                className="text-white w-full lg:w-28 md:mb-0 md:w-full "
               >
                 NEW
               </Button>

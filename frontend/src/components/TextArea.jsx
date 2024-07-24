@@ -115,6 +115,11 @@ export default function TextArea({ setTextValue }) {
           setTimeout(() => {
             setShowAlert(false);
           }, 3000);
+
+            // Reload the page after 10 seconds
+            setTimeout(() => {
+              window.location.reload();
+          }, 10000);
         } else {
           throw new Error("Unexpected response structure");
         }

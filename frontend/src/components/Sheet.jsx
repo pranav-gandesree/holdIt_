@@ -6,7 +6,6 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import { useParams, useNavigate } from "react-router-dom";
-
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,8 +13,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const INITIAL_DATA = [
-  [{ value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }],
-  [{ value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }],
+  [{ value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }],
+  [{ value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }],
+  [{ value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }],
+  [{ value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }, { value: "" }],
 ];
 
 const Sheet = () => {
@@ -28,18 +29,16 @@ const Sheet = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState('success');
-
-
   const navigate = useNavigate();
-
   const [expireTime, setExpireTime] = React.useState("0");
+
   const handleExpiry = (event) => {
     setExpireTime(event.target.value);
   };
 
   const copyToClipboard = () => {
     if (urlInputRef.current) {
-      const fullUrl = `http://localhost:5173/${url}`;
+      const fullUrl = `http://localhost:5173/excelsheet/${url}`;
       navigator.clipboard
         .writeText(fullUrl)
         .then(() => {
@@ -64,6 +63,39 @@ const Sheet = () => {
     }
   };
 
+  const copyJson = () => {
+    if (id) {
+      navigator.clipboard.writeText(JSON.stringify(json))
+        .then(() => {
+          setAlertMessage("Copied JSON data to the clipboard!");
+          setAlertSeverity("info");
+          setShowAlert(true);
+
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
+        })
+        .catch((err) => {
+          console.error("Failed to copy JSON: ", err);
+          setAlertMessage("Failed to copy JSON data to the clipboard!");
+          setAlertSeverity("error");
+          setShowAlert(true);
+
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
+        });
+    } else {
+      setAlertMessage("No ID parameter provided. Cannot copy JSON.");
+      setAlertSeverity("warning");
+      setShowAlert(true);
+
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
+  };
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -81,7 +113,6 @@ const Sheet = () => {
   }, [id]);
 
   const reload = () => {
-    // setEditorValue("")
     navigate("/excelsheet");
     window.location.reload();
   };
@@ -93,19 +124,16 @@ const Sheet = () => {
 
   function AddRow() {
     let cols = json[0].length;
-    let emptArr = [...Array(cols)].fill("");
+    let emptArr = [...Array(cols)].fill({ value: "" });
     let newData = [...json, emptArr];
     setJson(newData);
   }
 
-
-  // Function to delete a row
   function deleteRow(index) {
     const newData = json.filter((_, rowIndex) => rowIndex !== index);
     setJson(newData);
   }
 
-  // Function to delete a column
   function deleteCol(index) {
     const newData = json.map((row) =>
       row.filter((_, colIndex) => colIndex !== index)
@@ -113,36 +141,36 @@ const Sheet = () => {
     setJson(newData);
   }
 
-  // Function to save data
   const saveData = async () => {
     try {
-
       const response = await axios.post("http://localhost:4000/api/v1/json", {
         json,
         url,
         expireTime,
       });
       console.log("Data saved successfully:", response.data);
-      console.log("Extracted URL:", url);
-          setUrl(url);
+      const savedData = response.data.data[0];
+      const extractedUrl = savedData.url;
+      console.log("Extracted URL:", extractedUrl);
+      setUrl(extractedUrl);
 
-       // Show success alert
-       setAlertMessage('Saved to database successfully!');
-       setAlertSeverity('success');
-       setShowAlert(true);
+      setAlertMessage('Saved to database successfully!');
+      setAlertSeverity('success');
+      setShowAlert(true);
 
-       // Hide the alert after 3 seconds
-       setTimeout(() => {
-         setShowAlert(false);
-       }, 3000);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 10000);
     } catch (error) {
-      // Log detailed error information
       console.error("Error saving data:", error.message);
       setAlertMessage('Error saving data!');
       setAlertSeverity('error');
       setShowAlert(true);
 
-      // Hide the alert after 3 seconds
       setTimeout(() => {
         setShowAlert(false);
       }, 3000);
@@ -151,7 +179,7 @@ const Sheet = () => {
 
   return (
     <>
-       <div className="fixed bottom-4 left-4 w-72 z-50">
+      <div className="fixed bottom-4 left-4 w-72 z-50">
         {showAlert && (
           <Alert severity={alertSeverity} className="mb-4">
             {alertMessage}
@@ -159,127 +187,134 @@ const Sheet = () => {
         )}
       </div>
 
-    <div className="flex flex-col items-center bg-gray-200 min-h-screen py-8">
-      <div className="max-w-screen-lg w-full bg-white shadow-lg p-6 rounded-lg  border border-slate-700">
-        <Stack
-          spacing={2}
-          direction={{ base: "column", md: "row" }}
-          className="mb-4"
-          >
-          <div className="flex flex-row ">
-            <TextField
-              id="outlined-basic"
-              label="Enter URL"
-              variant="outlined"
-              inputRef={urlInputRef}
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              disabled={!!id} // Disable if id is present
-              className="w-full sm:w-96 lg:w-[300px] md:w-full  sm:mb-0 sm:mr-2 "
+      <div className="flex justify-center items-center flex-col bg-gray-200 min-h-screen py-8">
+        <div className="max-w-screen-lg w-full bg-white shadow-lg p-6 rounded-lg border border-slate-700 mb-4">
+          <Stack spacing={2} direction={{ base: "column", md: "row" }} className="mb-4">
+            <div className="flex flex-row">
+              <TextField
+                id="outlined-basic"
+                label="Enter URL"
+                variant="outlined"
+                inputRef={urlInputRef}
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                disabled={!!id}
+                className="w-full sm:w-96 lg:w-[300px] md:w-full sm:mb-0 sm:mr-2"
               />
-
-            <Box className="ml-2  sm:ml-4 w-full sm:w-96 lg:w-[300px] md:w-full ">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Expire in{" "}
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={expireTime}
-                  disabled={!!id}
-                  label="Expiry"
-                  onChange={handleExpiry}
-                  className="w-full"
+              <Box className="ml-2 sm:ml-4 w-full sm:w-96 lg:w-[300px] md:w-full">
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Expire in</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={expireTime}
+                    disabled={!!id}
+                    label="Expiry"
+                    onChange={handleExpiry}
+                    className="w-full"
                   >
-                  <MenuItem value={3600}>1 hour</MenuItem>
-                  <MenuItem value={86400}>1 day</MenuItem>
-                  <MenuItem value={2592000}>1 month</MenuItem>
-                  <MenuItem value={0}>NEVER</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
+                    <MenuItem value={3600}>1 hour</MenuItem>
+                    <MenuItem value={86400}>1 day</MenuItem>
+                    <MenuItem value={2592000}>1 month</MenuItem>
+                    <MenuItem value={0}>NEVER</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </div>
 
-          <div className="flex mt-2 flex-row md:flex-row md:space-x-2 space-x-2 ">
-            <Button
-              onClick={copyToClipboard}
-              variant="contained"
-              className="bg-blue-500 hover:bg-blue-700 lg:w-24 md:full h-14 w-full text-white md:mb-2  "
-              disabled={!!id}
-              size="medium"
+            <div className="flex mt-2 flex-row md:flex-row md:space-x-2 space-x-2">
+              <Button
+                onClick={copyToClipboard}
+                variant="contained"
+                className="bg-blue-500 hover:bg-blue-700 lg:w-24 md:full h-14 w-full text-white md:mb-2"
+                disabled={!!id}
+                size="medium"
               >
-              COPY
-            </Button>
-            <Button
-              onClick={saveData}
-              variant="contained"
-              className="  text-white w-full lg:w-28 md:mb-0 md:w-full  "
-              disabled={!!id}
-              size="medium"
+                COPY
+              </Button>
+              <Button
+                onClick={saveData}
+                variant="contained"
+                className="text-white w-full lg:w-28 md:mb-0 md:w-full"
+                disabled={!!id}
+                size="medium"
               >
-              SAVE
-            </Button>
-            <Button
-              onClick={reload}
-              size="medium"
-              variant="contained"
-              className="text-white w-full lg:w-28 md:mb-0 md:w-full "
+                SAVE
+              </Button>
+              <Button
+                onClick={reload}
+                size="medium"
+                variant="contained"
+                className="text-white w-full lg:w-28 md:mb-0 md:w-full"
               >
-              NEW
-            </Button>
-          </div>
-        </Stack>
-      </div>
-
-      <div>
-        <div>
-          <Button
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={AddRow}
-            disabled={!!id}
-            variant="contained"
-            color="success"
-            >
-            add row
-          </Button>
-
-          <Button
-            className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
-            onClick={() => deleteRow(Number(selectedRowIndex))}
-            disabled={!!id}
-            variant="contained"
-            color="success"
-            >
-            Delete Row
-          </Button>
-
-          <Button
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-            onClick={AddCol}
-            disabled={!!id}
-              variant="contained"
-              color="success"
-              >
-            add col
-          </Button>
-
-          <Button
-            className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
-            onClick={() => deleteCol(Number(selectedColIndex))}
-            disabled={!!id}
-            variant="contained"
-            color="success"
-            >
-            Delete Col
-          </Button>
-
-
+                NEW
+              </Button>
+            </div>
+          </Stack>
         </div>
-        <Spreadsheet data={json} onChange={setJson} />
+
+    
+        <div className="max-w-screen-lg w-full bg-white shadow-lg p-6 rounded-lg border border-slate-700 mb-4">
+      
+
+  <div className="flex flex-wrap gap-4 mb-4">
+    <Button
+      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-2 flex-1 min-w-[120px]"
+      onClick={AddRow}
+      disabled={!!id}
+      variant="contained"
+      color="success"
+    >
+      Add Row
+    </Button>
+    <Button
+      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-2 flex-1 min-w-[120px]"
+      onClick={() => deleteRow(Number(selectedRowIndex))}
+      disabled={!!id}
+      variant="contained"
+      color="success"
+    >
+      Delete Row
+    </Button>
+    <Button
+      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-2 flex-1 min-w-[120px]"
+      onClick={AddCol}
+      disabled={!!id}
+      variant="contained"
+      color="success"
+    >
+      Add Col
+    </Button>
+    <Button
+      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-2 flex-1 min-w-[120px]"
+      onClick={() => deleteCol(Number(selectedColIndex))}
+      disabled={!!id}
+      variant="contained"
+      color="success"
+    >
+      Delete Col
+    </Button>
+    <Button
+      className="text-white font-medium rounded-lg text-sm px-5 py-2.5 mb-2 flex-1 min-w-[120px]"
+      onClick={copyJson}
+      disabled={!id}
+      variant="contained"
+      color="success"
+    >
+      Copy Json
+    </Button>
+  </div>
+
+
+
+          <div className="overflow-x-auto">
+            <Spreadsheet data={json} onChange={setJson} className="bg-gray-100 shadow p-4 w-full min-w-[640px]" />
+          </div>
+
+        
+        </div>
       </div>
-    </div>
-            </>
+    </>
   );
 };
 

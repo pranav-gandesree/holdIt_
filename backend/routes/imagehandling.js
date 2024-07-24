@@ -69,8 +69,8 @@ router.post('/saveimage', async (req, res) => {
 
         // Save the URL to the database
         const { data, error: insertError } = await supabase
-            .from('data')
-            .insert([{ text: publicURL, url: generatedUrl, 
+            .from('image_data')
+            .insert([{ image: publicURL, url: generatedUrl, 
                 created_at: new Date().toISOString(),
                 expire_in: expireTime, }]);
 
@@ -90,15 +90,13 @@ router.post('/saveimage', async (req, res) => {
 });
 
 
-
-
-router.get('/:url', async (req, res) => {
+router.get('/image/:url', async (req, res) => {
     try {
         const { url } = req.params;
 
         const response = await supabase
-            .from('data')
-            .select('text')
+            .from('image_data')
+            .select('image')
             .eq('url', url)
             .single();
 
@@ -114,7 +112,7 @@ router.get('/:url', async (req, res) => {
             return res.status(500).json({ message: 'Internal server error' });
         }
 
-        res.status(200).json({ text: data.text });
+        res.status(200).json({ text: data.image });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: 'Internal server error' });
@@ -122,3 +120,4 @@ router.get('/:url', async (req, res) => {
 });
 
 module.exports = router;
+
