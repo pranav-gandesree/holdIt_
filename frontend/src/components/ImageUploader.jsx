@@ -22,6 +22,7 @@ const ImageUploader = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("success");
   const { id } = useParams();
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const [expireTime, setExpireTime] = React.useState("0");
 
@@ -83,7 +84,7 @@ const ImageUploader = () => {
     try {
       // Send POST request to backend API
       const response = await axios.post(
-        "http://localhost:4000/api/v1/saveimage",
+        `${backendUrl}/api/v1/saveimage`,
         { imageSrc, url, expireTime }
       );
 

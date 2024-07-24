@@ -32,6 +32,8 @@ const Sheet = () => {
   const navigate = useNavigate();
   const [expireTime, setExpireTime] = React.useState("0");
 
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
   const handleExpiry = (event) => {
     setExpireTime(event.target.value);
   };
@@ -101,7 +103,7 @@ const Sheet = () => {
       try {
         const path = id || window.location.pathname.replace(/^\/|\/$/g, "");
         const response = await axios.get(
-          `http://localhost:4000/api/v1/json/${path}`
+          `${backendUrl}/api/v1/json/${path}`
         );
         setJson(response.data.json); // Assuming the response structure is { json: ... }
       } catch (error) {
@@ -143,7 +145,7 @@ const Sheet = () => {
 
   const saveData = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/api/v1/json", {
+      const response = await axios.post(`${backendUrl}/api/v1/json`, {
         json,
         url,
         expireTime,

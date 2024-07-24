@@ -28,6 +28,7 @@ export default function TextArea({ setTextValue }) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState('success');
   const { id } = useParams(); // Get the id from the URL
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const [expireTime, setExpireTime] = React.useState('0');
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ export default function TextArea({ setTextValue }) {
   useEffect(() => {
     if (id) {
       // Fetch the corresponding text using the id from the URL
-      axios.get(`http://localhost:4000/api/v1/${id}`)
+      axios.get(`${backendUrl}/api/v1/${id}`)
         .then(response => {
           setEditorValue(response.data.text || "//some comment");
           console.log(response.data);
@@ -59,7 +60,7 @@ export default function TextArea({ setTextValue }) {
         });
     } else {
       const path = window.location.pathname.replace(/^\/|\/$/g, '');
-      axios.get(`http://localhost:4000/api/v1/${path}`)
+      axios.get(`${backendUrl}/api/v1/${path}`)
         .then(response => {
           setEditorValue(response.data.text || "//some comment");
           console.log(response.data);
@@ -96,7 +97,7 @@ export default function TextArea({ setTextValue }) {
   }
 
   function saveTextToDatabase(text) {
-    axios.post('http://localhost:4000/api/v1/paste', { text, url, expireTime })
+    axios.post('${backendUrl}/api/v1/paste', { text, url, expireTime })
       .then(response => {
         console.log("Response from server:", response);
 

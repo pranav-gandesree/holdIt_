@@ -15,6 +15,7 @@ const ImageReceiver = () => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(null);
   const [expireTime, setExpireTime] = useState(""); // Assuming you want to manage expireTime state
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const reload = () => {
     navigate("/imageuploader");
@@ -44,7 +45,7 @@ const ImageReceiver = () => {
   useEffect(() => {
     const fetchImageData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/v1/image/${id}`);
+        const response = await axios.get(`${backendUrl}/api/v1/image/${id}`);
         setImageSrc(response.data.text);
         console.log(response.data);
       } catch (error) {
@@ -57,7 +58,7 @@ const ImageReceiver = () => {
     } else {
       const path = window.location.pathname.replace(/^\/|\/$/g, "");
       axios
-        .get(`http://localhost:4000/api/v1/image/${path}`)
+        .get(`${backendUrl}/api/v1/image/${path}`)
         .then((response) => {
           console.log(response.data);
         })
