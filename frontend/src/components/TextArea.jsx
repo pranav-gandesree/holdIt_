@@ -16,9 +16,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 
-
-
-
 export default function TextArea({ setTextValue }) {
   const [editorValue, setEditorValue] = useState("");
   const editorRef = useRef(null);
