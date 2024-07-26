@@ -25,8 +25,8 @@ export default function TextArea({ setTextValue }) {
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState('success');
   const { id } = useParams(); // Get the id from the URL
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
+  const backendUrl = "https://holdit-backend.onrender.com"
+  const frontendUrl = "https://holdit-nm2m94hyz-pranavs-projects-53178da9.vercel.app"
 
   const [expireTime, setExpireTime] = React.useState('0');
   const navigate = useNavigate();

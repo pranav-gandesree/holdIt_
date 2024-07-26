@@ -15,7 +15,8 @@ const ImageReceiver = () => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(null);
   const [expireTime, setExpireTime] = useState(""); // Assuming you want to manage expireTime state
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
+  const backendUrl = "https://holdit-backend.onrender.com"
+
 
 
   const reload = () => {

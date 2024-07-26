@@ -22,8 +22,8 @@ const ImageUploader = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState("success");
   const { id } = useParams();
-  const backendUrl = process.env.REACT_APP_BACKEND_URL;
-  const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
+  const backendUrl = "https://holdit-backend.onrender.com"
+  const frontendUrl = "https://holdit-nm2m94hyz-pranavs-projects-53178da9.vercel.app"
 
   const [expireTime, setExpireTime] = React.useState("0");
 
