@@ -135,7 +135,8 @@ const ImageUploader = () => {
 
   const copyToClipboard = () => {
     if (urlInputRef.current) {
-      const fullUrl = `${frontendUrl}/imageuploader/${url}`;
+      // const fullUrl = `${frontendUrl}/imageuploader/${url}`;
+      const fullUrl = `http://localhost:5173/imageuploader/${url}`;
       navigator.clipboard
         .writeText(fullUrl)
         .then(() => {

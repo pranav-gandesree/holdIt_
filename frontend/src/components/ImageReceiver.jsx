@@ -56,6 +56,7 @@ const ImageReceiver = () => {
     };
 
     if (id) {
+      console.log("image id ", id)
       fetchImageData();
     } else {
       const path = window.location.pathname.replace(/^\/|\/$/g, "");

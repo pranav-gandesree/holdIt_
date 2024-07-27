@@ -5,7 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/system";
 import "../index.css";
-import logo from "../../public/logo.jpeg";
+import logo from "/logo.jpeg"
 
 const StyledNavLink = styled(NavLink)({
   color: "white",

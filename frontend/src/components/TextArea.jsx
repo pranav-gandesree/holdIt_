@@ -26,7 +26,10 @@ export default function TextArea({ setTextValue }) {
   const [alertSeverity, setAlertSeverity] = useState('success');
   const { id } = useParams(); // Get the id from the URL
   const backendUrl = "https://holdit-backend.onrender.com"
-  const frontendUrl = "https://holdit-nm2m94hyz-pranavs-projects-53178da9.vercel.app"
+  // const backendUrl = "http://localhost:4000"
+
+  // const frontendUrl = "https://holdit-nm2m94hyz-pranavs-projects-53178da9.vercel.app"
+  const frontendUrl = "http://localhost:5173"
 
   const [expireTime, setExpireTime] = React.useState('0');
   const navigate = useNavigate();
@@ -48,17 +51,21 @@ export default function TextArea({ setTextValue }) {
   useEffect(() => {
     if (id) {
       // Fetch the corresponding text using the id from the URL
-      axios.get(`${backendUrl}/api/v1/${id}`)
+      console.log("id is ",id);
+      axios.get(`https://holdit-backend.onrender.com/api/v1/${id}`)
+      // axios.get(`http://localhost:4000/api/v1/${id}`)
         .then(response => {
-          setEditorValue(response.data.text || "//some comment");
-          console.log(response.data);
+          setTextValue(response.data.text)
+          setEditorValue(response.data.text);
+          console.log(response.data.text);
         })
         .catch(error => {
           console.error("Error fetching data:", error);
         });
     } else {
       const path = window.location.pathname.replace(/^\/|\/$/g, '');
-      axios.get(`${backendUrl}/api/v1/${path}`)
+      axios.get(`https://holdit-backend.onrender.com/api/v1/${path}`)
+      // axios.get(`http://localhost:4000/api/v1/${path}`)
         .then(response => {
           setEditorValue(response.data.text || "//some comment");
           console.log(response.data);
@@ -95,7 +102,8 @@ export default function TextArea({ setTextValue }) {
   }
 
   function saveTextToDatabase(text) {
-    axios.post(`${backendUrl}/api/v1/paste`, { text, url, expireTime })
+    axios.post('https://holdit-backend.onrender.com/api/v1/paste', { text, url, expireTime })
+    // axios.post('http://localhost:4000/api/v1/paste', { text, url, expireTime })
       .then(response => {
         console.log("Response from server:", response);
 
@@ -212,11 +220,12 @@ export default function TextArea({ setTextValue }) {
                     label="Expiry"
                     onChange={handleExpiry}
                     className="w-full"
+
                   >
                     <MenuItem value={3600}>1 hour</MenuItem>
                     <MenuItem value={86400}>1 day</MenuItem>
+                    <MenuItem value={604800}>1 week</MenuItem>
                     <MenuItem value={2592000}>1 month</MenuItem>
-                    <MenuItem value={0}>NEVER</MenuItem>
                   </Select>
                 </FormControl>
               </Box>

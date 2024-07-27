@@ -35,7 +35,7 @@ router.post('/paste', async (req, res) => {
                 expire_in: expireTime }])
             .select();
 
-        // console.log('Supabase response:', response);
+        console.log('Supabase response:', response);
 
         const { data, error } = response;
         // console.log(data,error)
@@ -67,7 +67,7 @@ router.get('/:url', async (req, res) => {
             .eq('url', url)
             .single();
 
-        // console.log('Supabase response:', response);
+        console.log('Supabase response:', response);
 
         const { data, error } = response;
 
