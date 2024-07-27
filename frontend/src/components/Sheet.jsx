@@ -33,7 +33,7 @@ const Sheet = () => {
   const [expireTime, setExpireTime] = React.useState("0");
 
   const backendUrl = "https://holdit-backend.onrender.com"
-  const frontendUrl = "https://holdit-nm2m94hyz-pranavs-projects-53178da9.vercel.app"
+  const frontendUrl = "https://holdit-pranavs-projects-53178da9.vercel.app/"
 
   const handleExpiry = (event) => {
     setExpireTime(event.target.value);

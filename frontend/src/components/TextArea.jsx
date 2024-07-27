@@ -29,7 +29,7 @@ export default function TextArea({ setTextValue }) {
   // const backendUrl = "http://localhost:4000"
 
   // const frontendUrl = "https://holdit-nm2m94hyz-pranavs-projects-53178da9.vercel.app"
-  const frontendUrl = "http://localhost:5173"
+  const frontendUrl = "https://holdit-pranavs-projects-53178da9.vercel.app/"
 
   const [expireTime, setExpireTime] = React.useState('0');
   const navigate = useNavigate();

@@ -23,7 +23,7 @@ const ImageUploader = () => {
   const [alertSeverity, setAlertSeverity] = useState("success");
   const { id } = useParams();
   const backendUrl = "https://holdit-backend.onrender.com"
-  const frontendUrl = "https://holdit-nm2m94hyz-pranavs-projects-53178da9.vercel.app"
+  const frontendUrl = "https://holdit-pranavs-projects-53178da9.vercel.app/"
 
   const [expireTime, setExpireTime] = React.useState("0");
 
@@ -136,7 +136,7 @@ const ImageUploader = () => {
   const copyToClipboard = () => {
     if (urlInputRef.current) {
       // const fullUrl = `${frontendUrl}/imageuploader/${url}`;
-      const fullUrl = `http://localhost:5173/imageuploader/${url}`;
+      const fullUrl = `${frontendUrl}/${url}`;
       navigator.clipboard
         .writeText(fullUrl)
         .then(() => {
